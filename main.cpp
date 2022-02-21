@@ -1,6 +1,10 @@
+// This file should read in the cards of the two players from input files and put everything together to play the game.
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "cards.cpp"
+#include "cards.h"
+
 
 using namespace std;
 
@@ -21,13 +25,13 @@ int main(int argv, char** argc){
 
   //Read each file
   while (getline (cardFile1, line) && (line.length() > 0)){
-
+   cards *qs = new cards(line);
   }
   cardFile1.close();
 
 
   while (getline (cardFile2, line) && (line.length() > 0)){
-
+   cards *qs = new cards(line);
   }
   cardFile2.close();
   
