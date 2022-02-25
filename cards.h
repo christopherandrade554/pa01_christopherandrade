@@ -1,53 +1,48 @@
-
-// Christopher Andrade Perm:5698618
-//Date 2/24/222
 #ifndef CARDS_H
 #define CARDS_H
+
 #include <iostream>
+#include <unordered_map>
 #include "utility.h"
 using namespace std;
 
-class Deck
+class CardsBST
 {
 public:
-    Deck();
-    ~Deck();
+    CardsBST();
+    ~CardsBST();
+    void insert(Cards c);
+    void remove(Cards c);
+    bool contains(Cards c);
     void printInOrder();
-    cardsInDeck getSuccessor(cardsInDeck c);
-    cardsInDeck getPredecessor(cardsInDeck c);
-    cardsInDeck Min();
-    cardsInDeck Max();
-    void insert(cardsInDeck c);
-    void remove(cardsInDeck c);
-    bool contains(cardsInDeck c);
-
-
+    Cards getSuccessor(Cards c);
+    Cards getPredecessor(Cards c);
+    Cards findMin();
+    Cards findMax();
 
 private:
-    struct Node
+    struct cardNode
     {
-        Node *left, *right, *parent;
-        cardsInDeck card;
-        Node(cardsInDeck c1)
+        cardNode *left, *right, *parent;
+        Cards card;
+        cardNode(Cards c1)
         {
             card = c1;
-            //left = right = parent = nullptr;
-            left = nullptr;
-            right = nullptr;
-            parent = nullptr;
+            left = right = parent = nullptr;
         }
     };
 
-    Node *root;
+    cardNode *root;
 
-    Node *locate(cardsInDeck c, Node *p);
-    Node *getSuccessorNode(cardsInDeck c);
-    Node *getPredecessorNode(cardsInDeck c);
-    Node *smNode();
-    Node *bgNode();
-    void printInOrder(Node *root);
-    void insert(cardsInDeck c, Node *p);
-    void clear(Node *root);
+    // functions
+    cardNode *findNode(Cards c, cardNode *p);
+    cardNode *getSuccessorNode(Cards c);
+    cardNode *getPredecessorNode(Cards c);
+    cardNode *minNode();
+    cardNode *maxNode();
+    void printInOrder(cardNode *root);
+    void insert(Cards c, cardNode *p);
+    void clear(cardNode *root);
 };
 
 #endif

@@ -1,43 +1,40 @@
-
-// Christopher Andrade Perm:5698618
-//Date 2/24/222
 #include <iostream>
 #include <map>
 #include "utility.h"
 using namespace std;
 
-cardsInDeck::cardsInDeck() : suit('z'), value("0") {}
-cardsInDeck::~cardsInDeck() {}
+Cards::Cards() : suit('z'), val("0") {}
+Cards::~Cards() {}
 
-cardsInDeck::cardsInDeck(char s, string v)
+Cards::Cards(char s, string v)
 {
     suit = s;
-    value = v;
+    val = v;
 }
 
-void cardsInDeck::setCard(char &suit, string &value)
+void Cards::setCard(char &suit, string &val)
 {
     this->suit = suit;
-    this->value = value;
+    this->val = val;
 }
-char cardsInDeck::getSuit() const
+char Cards::getSuit() const
 {
     return suit;
 }
 
-string cardsInDeck::getValue() const
+string Cards::getVal() const
 {
-    return value;
+    return val;
 }
 
-bool operator<(cardsInDeck const &one, cardsInDeck const &two)
+bool operator<(Cards const &c1, Cards const &c2)
 {
 
-    if (one.suit == two.suit && one.value == two.value)
+    if (c1.suit == c2.suit && c1.val == c2.val)
         return false;
 
     int suit1;
-    switch (one.suit)
+    switch (c1.suit)
     {
     case 'c':
         suit1 = 1;
@@ -57,7 +54,7 @@ bool operator<(cardsInDeck const &one, cardsInDeck const &two)
     }
 
     int suit2;
-    switch (two.suit)
+    switch (c2.suit)
     {
     case 'c':
         suit2 = 1;
@@ -91,8 +88,8 @@ bool operator<(cardsInDeck const &one, cardsInDeck const &two)
     cardFace["q"] = 12;
     cardFace["k"] = 13;
 
-    auto first1 = cardFace.find(one.value);
-    auto second2 = cardFace.find(two.value);
+    auto val1 = cardFace.find(c1.val);
+    auto val2 = cardFace.find(c2.val);
 
     if (suit1 < suit2)
     {
@@ -102,9 +99,9 @@ bool operator<(cardsInDeck const &one, cardsInDeck const &two)
     {
         return false;
     }
-    else // COMPARING THE valueUES
+    else // COMPARING THE VALUES
     {
-        if (first1->second < second2->second)
+        if (val1->second < val2->second)
         {
             return true;
         }
@@ -113,31 +110,25 @@ bool operator<(cardsInDeck const &one, cardsInDeck const &two)
     }
 }
 
-bool operator>(cardsInDeck const &one, cardsInDeck const &two)
+bool operator>(Cards const &c1, Cards const &c2)
 {
-    if (one.suit == two.suit && one.value == two.value)
+    if (c1.suit == c2.suit && c1.val == c2.val)
         return false;
-    if (one < two)
+    if (c1 < c2)
         return false;
     else
         return true;
 }
 
-bool operator==(cardsInDeck const &one, cardsInDeck const &two)
+bool operator==(Cards const &c1, Cards const &c2)
 {
-    if (one.suit == two.suit && one.value == two.value){
-
-    
+    if (c1.suit == c2.suit && c1.val == c2.val)
         return true;
-    }
-    else{
-
-
-    }
-       
+    else
+        return false;
 }
 
-void cardsInDeck::printCards() const
+void Cards::printCard() const
 {
-    cout << this->suit << " " << this->value << endl;
+    cout << this->suit << " " << this->val << endl;
 }

@@ -1,6 +1,3 @@
-
-// Christopher Andrade Perm:5698618
-//Date 2/24/222
 #ifndef UTILITY_H
 #define UTILITY_H
 
@@ -8,26 +5,25 @@
 #include <map>
 using namespace std;
 
-class cardsInDeck
+class Cards
 {
 public:
-    cardsInDeck();
-    ~cardsInDeck();
-    cardsInDeck(char s, string v);
+    Cards();
+    ~Cards();
+    Cards(char s, string v);
     void setCard(char &suit, string &val);
     char getSuit() const;
-    string getValue() const;
-    void printCards() const;
+    string getVal() const;
+    void printCard() const;
 
-    friend bool operator<(cardsInDeck const &c1, cardsInDeck const &c2);
-    friend bool operator>(cardsInDeck const &c1, cardsInDeck const &c2);
-    friend bool operator==(cardsInDeck const &c1, cardsInDeck const &c2);
+    friend bool operator<(Cards const &c1, Cards const &c2);
+    friend bool operator>(Cards const &c1, Cards const &c2);
+    friend bool operator==(Cards const &c1, Cards const &c2);
 
 private:
     char suit;
-    string value;
+    string val;
     map<string, int> cardFace;
 };
 
 #endif
-
