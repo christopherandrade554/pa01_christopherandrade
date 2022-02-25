@@ -14,15 +14,15 @@ int main()
     d 2
     */
 
-    Deck Alice, Bob;
-    cardsInDeck cJ('c', "j");
-    cardsInDeck s10('s', "10");
-    cardsInDeck c6('c', "6");
-    cardsInDeck c9('c', "9");
-    cardsInDeck d2('d', "2");
-    cardsInDeck hK('h', "k");
+    CardsBST Alice, Bob;
+    Cards cJ('c', "j");
+    Cards s10('s', "10");
+    Cards c6('c', "6");
+    Cards c9('c', "9");
+    Cards d2('d', "2");
+    Cards hK('h', "k");
 
-    cardsInDeck nullCard('z', "0");
+    Cards nullCard('z', "0");
 
     Alice.insert(cJ);
     Alice.insert(s10);
@@ -40,20 +40,20 @@ int main()
     Bob.printInOrder();
 
     cout << "Successors / Predecessors Test" << endl;
-    cardsInDeck p = Alice.getPredecessor(cJ);
-    cout << "Predecessor: " << p.getSuit() << " " << p.getValue() << endl;
-    cout << "Predecessor: " << Bob.getPredecessor(d2).getSuit() << " " << Bob.getPredecessor(d2).getValue() << endl;
-    cout << "Successor: " << Alice.getSuccessor(c6).getSuit() << " " << Alice.getSuccessor(c6).getValue() << endl;
-    cout << "Successor: " << Bob.getSuccessor(c9).getSuit() << " " << Bob.getSuccessor(c9).getValue() << endl;
+    Cards p = Alice.getPredecessor(cJ);
+    cout << "Predecessor: " << p.getSuit() << " " << p.getVal() << endl;
+    cout << "Predecessor: " << Bob.getPredecessor(d2).getSuit() << " " << Bob.getPredecessor(d2).getVal() << endl;
+    cout << "Successor: " << Alice.getSuccessor(c6).getSuit() << " " << Alice.getSuccessor(c6).getVal() << endl;
+    cout << "Successor: " << Bob.getSuccessor(c9).getSuit() << " " << Bob.getSuccessor(c9).getVal() << endl;
 
     cout << "Max / Min Test" << endl;
-    cout << "Alice's Max: " << Alice.Max().getSuit() << " " << Alice.Max().getValue() << endl;
-    cout << "Alice's Min: " << Alice.Min().getSuit() << " " << Alice.Min().getValue() << endl;
-    cout << "Bob's Max: " << Bob.Max().getSuit() << " " << Bob.Max().getValue() << endl;
-    cout << "Bob's Min: " << Bob.Min().getSuit() << " " << Bob.Min().getValue() << endl;
+    cout << "Alice's Max: " << Alice.findMax().getSuit() << " " << Alice.findMax().getVal() << endl;
+    cout << "Alice's Min: " << Alice.findMin().getSuit() << " " << Alice.findMin().getVal() << endl;
+    cout << "Bob's Max: " << Bob.findMax().getSuit() << " " << Bob.findMax().getVal() << endl;
+    cout << "Bob's Min: " << Bob.findMin().getSuit() << " " << Bob.findMin().getVal() << endl;
 
-    cardsInDeck aMax = Alice.Min();
-    cardsInDeck bMin = Bob.Max();
+    Cards aMax = Alice.findMin();
+    Cards bMin = Bob.findMax();
 
     while (!(aMax == nullCard) & !(bMin == nullCard))
     {
@@ -65,8 +65,10 @@ int main()
         {
             cout << "bob contains alice." << endl;
             Bob.remove(aMax);
+            // cout << "successfully removed in BOB" << endl;
         }
-        cardsInDeck a = Alice.getSuccessor(aMax);
+        Cards a = Alice.getSuccessor(aMax);
+        // cout << "successor got ";
         Alice.remove(aMax);
         aMax = a;
     }
@@ -77,3 +79,4 @@ int main()
 
     return 0;
 }
+
