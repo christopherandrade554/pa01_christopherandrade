@@ -1,22 +1,33 @@
-#include <string>
+
+// Christopher Andrade Perm:5698618
+//Date 2/24/222
+#ifndef UTILITY_H
+#define UTILITY_H
+
 #include <iostream>
+#include <map>
 using namespace std;
 
-class tree{
-    public:
-    bool insert(int value); 
-    find(int value, Node* n);
-    successor(int value);
-    predecessor(int value);
+class cardsInDeck
+{
+public:
+    cardsInDeck();
+    ~cardsInDeck();
+    cardsInDeck(char s, string v);
+    void setCard(char &suit, string &val);
+    char getSuit() const;
+    string getValue() const;
+    void printCards() const;
 
-    private:
-    struct Node {
-	int info;
-	Node *left, *right, * parent;
-	// useful constructor:
-    Node(int v=0) : info(v), left(0), right(0), parent(0) { }
-    };
+    friend bool operator<(cardsInDeck const &c1, cardsInDeck const &c2);
+    friend bool operator>(cardsInDeck const &c1, cardsInDeck const &c2);
+    friend bool operator==(cardsInDeck const &c1, cardsInDeck const &c2);
 
-    Node *root;
+private:
+    char suit;
+    string value;
+    map<string, int> cardFace;
+};
 
-}
+#endif
+
