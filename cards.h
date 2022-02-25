@@ -23,7 +23,7 @@ public:
 
 
 
-//private:
+private:
     struct Node
     {
         Node *left, *right, *parent;

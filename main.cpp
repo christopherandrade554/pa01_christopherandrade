@@ -59,8 +59,8 @@ int main(int argv, char ** argc) {
 
   cardsInDeck a = BST1.Min();
   cardsInDeck b = BST2.Min();
-  //cardsInDeck aMax = BST1.Min();
-  //cardsInDeck bMin = BST2.Min();
+  cardsInDeck aMax = BST1.Min();
+  cardsInDeck bMin = BST2.Min();
 
   while (!(a == nullCard) && !(b == nullCard)) {
 
