@@ -1,6 +1,6 @@
 CXX_FLAG = --std=c++11 -g
 
-all: testcards main
+all: game
 
 testcards: testcards.o cards.o
 	g++ $(CXX_FLAG) -o testcards testcards.o cards.o
