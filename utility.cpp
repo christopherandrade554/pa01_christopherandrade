@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Selected::Selected(): suit('z'), value("0") {}
 Selected::~Selected() {}
+Selected::Selected(): suit('z'), value("0") {}
+
 
 Selected::Selected(char s, string v) {
   suit = s;
@@ -16,8 +17,9 @@ Selected::Selected(char s, string v) {
 }
 
 void Selected::setC(char & suit, string & value) {
+ this -> value = value;
   this -> suit = suit;
-  this -> value = value;
+ 
 }
 char Selected::getSuit() const {
   return suit;

@@ -57,8 +57,7 @@ int main(int argv, char **argc)
 
 	Selected a = Set1.Min();
 	Selected b = Set2.Max();
-	//Selected aMax = Set1.Max();
-	//Selected bMin = Set2.Min();
+	
 
 	while (!(a == blank) && !(b == blank))
 	{

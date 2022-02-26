@@ -29,7 +29,10 @@ class Deck {
       Selected card;
       Node(Selected c1) {
         card = c1;
-        left = right = parent = nullptr;
+        left = nullptr;
+        right = nullptr;
+        right = nullptr;
+        parent = nullptr;
       }
     };
 
