@@ -54,7 +54,6 @@ int main(int argv, char **argc)
 	cardFile2.close();
 
 	Selected blank('z', "0");
-
 	Selected a = Set1.Min();
 	Selected b = Set2.Max();
 	

@@ -11,42 +11,42 @@
 using namespace std;
 
 class Deck {
-  public:
+public:
     Deck();
-  ~Deck();
-  void insert(Selected c);
-  void remove(Selected c);
-  bool contains(Selected c);
-  void Print();
-  Selected Successor(Selected c);
-  Selected Predecessor(Selected c);
-  Selected Min();
-  Selected Max();
+    ~Deck();
+    void insert(Selected c);
+    void remove(Selected c);
+    bool contains(Selected c);
+    void Print();
+    Selected Successor(Selected c);
+    Selected Predecessor(Selected c);
+    Selected Min();
+    Selected Max();
 
-  private:
+private:
     struct Node {
-      Node * left, * right, * parent;
-      Selected card;
-      Node(Selected c1) {
-        card = c1;
-        left = nullptr;
-        right = nullptr;
-        right = nullptr;
-        parent = nullptr;
-      }
+        Node *left, *right, *parent;
+        Selected card;
+        Node(Selected c1)
+        {
+            card = c1;
+            left = nullptr;
+            right = nullptr;
+            right = nullptr;
+            parent = nullptr;
+        }
     };
 
-  Node * root;
+    Node* root;
 
-    void Print(Node * root);
-  void insert(Selected c, Node * p);
-  void clear(Node * root);
-  Node * findNode(Selected c, Node * p);
-  Node * SuccessorNode(Selected c);
-  Node * PredecessorNode(Selected c);
-  Node * smNode();
-  Node * bgNode();
-
+    void Print(Node* root);
+    void insert(Selected c, Node* p);
+    void clear(Node* root);
+    Node* findNode(Selected c, Node* p);
+    Node* SuccessorNode(Selected c);
+    Node* PredecessorNode(Selected c);
+    Node* smNode();
+    Node* bgNode();
 };
 
 #endif
