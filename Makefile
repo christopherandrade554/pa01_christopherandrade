@@ -1,19 +1,11 @@
-CXX = g++
-#CXX = clang++
 
-CXXFLAGS = -Wall -Wno-uninitialized
+all: tests game
 
-BINARIES= tests game
+tests: tests.o cards.o utility.o
+	g++ -Wall -Wno-uninitialized $(LDFLAGS) $^ -o $@
 
-COMMON_OBJECT_FILES = cards.o utility.o
-
-all: ${BINARIES}
-
-tests: tests.o ${COMMON_OBJECT_FILES}
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
-
-game: main.o ${COMMON_OBJECT_FILES}
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+game: main.o cards.o utility.o
+	g++ -Wall -Wno-uninitialized $(LDFLAGS) $^ -o $@
 
 clean:
-	/bin/rm -f ${BINARIES} *.o
+	/bin/rm -f tests game *.o
