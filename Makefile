@@ -1,20 +1,19 @@
+CXX = g++
+#CXX = clang++
 
-CXX_FLAG = --std=c++11 -g
+CXXFLAGS = -Wall -Wno-uninitialized
 
-all: game
+BINARIES= tests game
 
-game: cards.o main.o utility.o
-	g++ $(CXX_FLAG) -o game cards.o main.o utility.o
+COMMON_OBJECT_FILES = cards.o utility.o
 
+all: ${BINARIES}
 
-cards.o: cards.cpp
-	g++ -c $(CXX_FLAG) cards.cpp
+tests: tests.o ${COMMON_OBJECT_FILES}
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
-main.o: main.cpp
-	g++ -c $(CXX_FLAG) main.cpp
-
-utility.o: utility.cpp
-	g++ -c $(CXX_FLAG) utility.o
+game: main.o ${COMMON_OBJECT_FILES}
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 clean:
-	rm -f testrest testlist *.o
+	/bin/rm -f ${BINARIES} *.o
