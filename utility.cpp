@@ -94,9 +94,10 @@ bool operator<(Selected const& c1, Selected const& c2)
     faceVal["q"] = 12;
     faceVal["k"] = 13;
 
-    auto val1 = faceVal.find(c1.value);
-    auto val2 = faceVal.find(c2.value);
+     auto val2 = faceVal.find(c2.value);
 
+    auto val1 = faceVal.find(c1.value);
+   
     if (suit1 < suit2) {
         return true;
     }
@@ -112,6 +113,14 @@ bool operator<(Selected const& c1, Selected const& c2)
     }
 }
 
+bool operator==(Selected const& c1, Selected const& c2)
+{
+    if (c1.suit == c2.suit && c1.value == c2.value)
+        return true;
+    else
+        return false;
+}
+
 bool operator>(Selected const& c1, Selected const& c2)
 {
     if (c1.suit == c2.suit && c1.value == c2.value)
@@ -122,13 +131,7 @@ bool operator>(Selected const& c1, Selected const& c2)
         return true;
 }
 
-bool operator==(Selected const& c1, Selected const& c2)
-{
-    if (c1.suit == c2.suit && c1.value == c2.value)
-        return true;
-    else
-        return false;
-}
+
 
 void Selected::printCard() const
 {
