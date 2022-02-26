@@ -36,8 +36,8 @@ int main(int argv, char ** argc) {
     char suit[1];
     strcpy(suit, suitcp.c_str());
     string val = line.substr(2, 2);
-    Cards card;
-    card.setCard(suit[0], val);
+    Selected card;
+    card. setC(suit[0], val);
     BST1.insert(card);
   }
 
@@ -48,36 +48,36 @@ int main(int argv, char ** argc) {
     char suit[1];
     strcpy(suit, suitcp.c_str());
     string val = line.substr(2, 2);
-    Cards card;
-    card.setCard(suit[0], val);
+    Selected card;
+    card. setC(suit[0], val);
     BST2.insert(card);
   }
   cardFile2.close();
 
-  Cards nullCard('z', "0");
+  Selected nullCard('z', "0");
 
-  Cards a = BST1.findMin();
-  Cards b = BST2.findMax();
+  Selected a = BST1.Min();
+  Selected b = BST2.Max();
 
-  Cards aMax = BST1.findMax();
-  Cards bMin = BST2.findMin();
+  Selected aMax = BST1.Max();
+  Selected bMin = BST2.Min();
 
   while (!(a == nullCard) && !(b == nullCard)) {
 
     if (BST2.contains(a)) {
       BST2.remove(a);
       cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-      Cards newA = BST1.getSuccessor(a);
+      Selected newA = BST1.Successor(a);
       BST1.remove(a);
       a = newA;
     } else if (!BST2.contains(a)) {
       while (!(a == nullCard)) {
-        Cards newA = BST1.getSuccessor(a);
+        Selected newA = BST1.Successor(a);
         a = newA;
         if (BST2.contains(a)) {
           BST2.remove(a);
           cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-          Cards newA = BST1.getSuccessor(a);
+          Selected newA = BST1.Successor(a);
           BST1.remove(a);
           a = newA;
           break;
@@ -88,17 +88,17 @@ int main(int argv, char ** argc) {
     if (BST1.contains(b)) {
       BST1.remove(b);
       cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-      Cards newB = BST2.getPredecessor(b);
+      Selected newB = BST2.Predecessor(b);
       BST2.remove(b);
       b = newB;
     } else if (!BST1.contains(b)) {
       while (!(b == nullCard)) {
-        Cards newB = BST2.getPredecessor(b);
+        Selected newB = BST2.Predecessor(b);
         b = newB;
         if (BST1.contains(b)) {
           BST1.remove(b);
           cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-          Cards newB = BST2.getPredecessor(b);
+          Selected newB = BST2.Predecessor(b);
           BST2.remove(b);
           b = newB;
           break;
@@ -107,10 +107,10 @@ int main(int argv, char ** argc) {
     }
   }
   cout << endl <<
-    "Alice's cards: " << endl;
-  BST1.printInOrder();
+    "Alice's Selected: " << endl;
+  BST1.Print();
   cout << endl <<
-    "Bob's cards: " << endl;
-  BST2.printInOrder();
+    "Bob's Selected: " << endl;
+  BST2.Print();
   return 0;
 }

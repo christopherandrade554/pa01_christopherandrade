@@ -7,28 +7,28 @@
 
 using namespace std;
 
-Cards::Cards(): suit('z'), val("0") {}
-Cards::~Cards() {}
+Selected::Selected(): suit('z'), val("0") {}
+Selected::~Selected() {}
 
-Cards::Cards(char s, string v) {
+Selected::Selected(char s, string v) {
   suit = s;
   val = v;
 }
 
-void Cards::setCard(char & suit, string & val) {
+void Selected::setC(char & suit, string & val) {
   this -> suit = suit;
   this -> val = val;
 }
-char Cards::getSuit() const {
+char Selected::getSuit() const {
   return suit;
 }
 
-string Cards::getVal() const {
+string Selected::getVal() const {
   return val;
 }
 
-bool operator < (Cards
-  const & c1, Cards
+bool operator < (Selected
+  const & c1, Selected
   const & c2) {
 
   if (c1.suit == c2.suit && c1.val == c2.val)
@@ -102,8 +102,8 @@ bool operator < (Cards
   }
 }
 
-bool operator > (Cards
-  const & c1, Cards
+bool operator > (Selected
+  const & c1, Selected
   const & c2) {
   if (c1.suit == c2.suit && c1.val == c2.val)
     return false;
@@ -113,8 +113,8 @@ bool operator > (Cards
     return true;
 }
 
-bool operator == (Cards
-  const & c1, Cards
+bool operator == (Selected
+  const & c1, Selected
   const & c2) {
   if (c1.suit == c2.suit && c1.val == c2.val)
     return true;
@@ -122,6 +122,6 @@ bool operator == (Cards
     return false;
 }
 
-void Cards::printCard() const {
+void Selected::printCard() const {
   cout << this -> suit << " " << this -> val << endl;
 }

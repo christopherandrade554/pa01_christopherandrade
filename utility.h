@@ -8,24 +8,24 @@
 
 using namespace std;
 
-class Cards {
+class Selected {
   public:
-    Cards();
-  ~Cards();
-  Cards(char s, string v);
+    Selected();
+  ~Selected();
+  Selected(char s, string v);
 
     
-  friend bool operator < (Cards
-    const & c1, Cards
+  friend bool operator < (Selected
+    const & c1, Selected
     const & c2);
-  friend bool operator > (Cards
-    const & c1, Cards
+  friend bool operator > (Selected
+    const & c1, Selected
     const & c2);
-  friend bool operator == (Cards
-    const & c1, Cards
+  friend bool operator == (Selected
+    const & c1, Selected
     const & c2);
 
-  void setCard(char & suit, string & val);
+  void setC(char & suit, string & val);
   char getSuit() const;
   string getVal() const;
   void printCard() const;

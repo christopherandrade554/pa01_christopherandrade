@@ -11,7 +11,7 @@ Deck::~Deck() {
   clear(root);
 }
 
-void Deck::insert(Cards c) {
+void Deck::insert(Selected c) {
   if (!root) {
     root = new Node(c);
     return;
@@ -20,7 +20,7 @@ void Deck::insert(Cards c) {
   }
 }
 
-void Deck::insert(Cards c, Node * p) {
+void Deck::insert(Selected c, Node * p) {
   if (p -> card == c)
     return;
   else if (c > p -> card) {
@@ -42,7 +42,7 @@ void Deck::insert(Cards c, Node * p) {
   }
 }
 
-void Deck::remove(Cards c) {
+void Deck::remove(Selected c) {
 
   Node * p = findNode(c, this -> root);
 
@@ -113,26 +113,26 @@ void Deck::remove(Cards c) {
   return;
 }
 
-bool Deck::contains(Cards c) {
+bool Deck::contains(Selected c) {
   if (this -> findNode(c, this -> root) == nullptr)
     return false;
   else
     return true;
 }
 
-void Deck::printInOrder() {
-  printInOrder(this -> root);
+void Deck::Print() {
+  Print(this -> root);
 }
 
-void Deck::printInOrder(Node * root) {
+void Deck::Print(Node * root) {
   if (root) {
-    printInOrder(root -> left);
+    Print(root -> left);
     cout << root -> card.getSuit() << " " << root -> card.getVal() << endl;
-    printInOrder(root -> right);
+    Print(root -> right);
   }
 }
 
-Deck::Node * Deck::getSuccessorNode(Cards c) {
+Deck::Node * Deck::SuccessorNode(Selected c) {
 
   Node * p = this -> findNode(c, this -> root);
 
@@ -143,7 +143,7 @@ Deck::Node * Deck::getSuccessorNode(Cards c) {
       return nullptr;
     }
 
-    if (!p -> right && p -> parent -> right == p && p -> card > root -> card && p -> card == this -> findMax()) {
+    if (!p -> right && p -> parent -> right == p && p -> card > root -> card && p -> card == this -> Max()) {
       return nullptr;
     }
 
@@ -165,16 +165,16 @@ Deck::Node * Deck::getSuccessorNode(Cards c) {
   }
 }
 
-Cards Deck::getSuccessor(Cards c) {
-  Node * p = getSuccessorNode(c);
-  Cards x;
+Selected Deck::Successor(Selected c) {
+  Node * p = SuccessorNode(c);
+  Selected x;
   if (!p) {
     return x;
   } else
     return p -> card;
 }
 
-Deck::Node * Deck::getPredecessorNode(Cards c) {
+Deck::Node * Deck::PredecessorNode(Selected c) {
   Node * p = this -> findNode(c, this -> root);
   if (!p) {
     return nullptr;
@@ -182,7 +182,7 @@ Deck::Node * Deck::getPredecessorNode(Cards c) {
     if (!p -> parent && !p -> left) {
       return nullptr;
     }
-    if (!p -> left && p -> parent -> left == p && p -> card < root -> card && p -> card == this -> findMin()) {
+    if (!p -> left && p -> parent -> left == p && p -> card < root -> card && p -> card == this -> Min()) {
       return nullptr;
     }
 
@@ -204,16 +204,16 @@ Deck::Node * Deck::getPredecessorNode(Cards c) {
   }
 }
 
-Cards Deck::getPredecessor(Cards c) {
-  Node * p = this -> getPredecessorNode(c);
-  Cards x;
+Selected Deck::Predecessor(Selected c) {
+  Node * p = this -> PredecessorNode(c);
+  Selected x;
   if (!p) {
     return x;
   } else
     return p -> card;
 }
 
-Deck::Node * Deck::findNode(Cards c, Node * p) {
+Deck::Node * Deck::findNode(Selected c, Node * p) {
 
   Node * n = this -> root;
   while (n) {
@@ -247,7 +247,7 @@ Deck::Node * Deck::smNode() {
   return p;
 }
 
-Cards Deck::findMin() {
+Selected Deck::Min() {
   Node * p = smNode();
   return p -> card;
 }
@@ -259,7 +259,7 @@ Deck::Node * Deck::bgNode() {
   }
   return p;
 }
-Cards Deck::findMax() {
+Selected Deck::Max() {
   Node * p = bgNode();
   return p -> card;
 }

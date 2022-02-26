@@ -14,20 +14,20 @@ class Deck {
   public:
     Deck();
   ~Deck();
-  void insert(Cards c);
-  void remove(Cards c);
-  bool contains(Cards c);
-  void printInOrder();
-  Cards getSuccessor(Cards c);
-  Cards getPredecessor(Cards c);
-  Cards findMin();
-  Cards findMax();
+  void insert(Selected c);
+  void remove(Selected c);
+  bool contains(Selected c);
+  void Print();
+  Selected Successor(Selected c);
+  Selected Predecessor(Selected c);
+  Selected Min();
+  Selected Max();
 
   private:
     struct Node {
       Node * left, * right, * parent;
-      Cards card;
-      Node(Cards c1) {
+      Selected card;
+      Node(Selected c1) {
         card = c1;
         left = right = parent = nullptr;
       }
@@ -35,15 +35,15 @@ class Deck {
 
   Node * root;
 
-
-  Node * findNode(Cards c, Node * p);
-  Node * getSuccessorNode(Cards c);
-  Node * getPredecessorNode(Cards c);
+    void Print(Node * root);
+  void insert(Selected c, Node * p);
+  void clear(Node * root);
+  Node * findNode(Selected c, Node * p);
+  Node * SuccessorNode(Selected c);
+  Node * PredecessorNode(Selected c);
   Node * smNode();
   Node * bgNode();
-  void printInOrder(Node * root);
-  void insert(Cards c, Node * p);
-  void clear(Node * root);
+
 };
 
 #endif
