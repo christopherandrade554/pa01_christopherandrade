@@ -14,7 +14,7 @@ int main()
     d 2
     */
 
-    CardsBST Alice, Bob;
+    Deck Alice, Bob;
     Cards cJ('c', "j");
     Cards s10('s', "10");
     Cards c6('c', "6");

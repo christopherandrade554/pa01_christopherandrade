@@ -1,3 +1,4 @@
+//Christopher Andrade
 #include <iostream>
 
 #include <fstream>
@@ -27,8 +28,8 @@ int main(int argv, char ** argc) {
     return 1;
   }
 
-  CardsBST BST1;
-  CardsBST BST2;
+  Deck BST1;
+  Deck BST2;
   // Read each file
   while (getline(cardFile1, line) && (line.length() > 0)) {
     string suitcp = line.substr(0, 1);

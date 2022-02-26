@@ -1,3 +1,4 @@
+//Christopher Andrade
 #ifndef UTILITY_H
 #define UTILITY_H
 
@@ -12,11 +13,8 @@ class Cards {
     Cards();
   ~Cards();
   Cards(char s, string v);
-  void setCard(char & suit, string & val);
-  char getSuit() const;
-  string getVal() const;
-  void printCard() const;
 
+    
   friend bool operator < (Cards
     const & c1, Cards
     const & c2);
@@ -26,6 +24,11 @@ class Cards {
   friend bool operator == (Cards
     const & c1, Cards
     const & c2);
+
+  void setCard(char & suit, string & val);
+  char getSuit() const;
+  string getVal() const;
+  void printCard() const;
 
   private:
     char suit;

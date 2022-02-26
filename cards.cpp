@@ -1,32 +1,33 @@
+//Christopher Andrade
 #include <iostream>
 
 #include "cards.h"
 
 using namespace std;
 
-CardsBST::CardsBST(): root(nullptr) {}
+Deck::Deck(): root(nullptr) {}
 
-CardsBST::~CardsBST() {
+Deck::~Deck() {
   clear(root);
 }
 
-void CardsBST::insert(Cards c) {
+void Deck::insert(Cards c) {
   if (!root) {
-    root = new cardNode(c);
+    root = new Node(c);
     return;
   } else {
     return insert(c, root);
   }
 }
 
-void CardsBST::insert(Cards c, cardNode * p) {
+void Deck::insert(Cards c, Node * p) {
   if (p -> card == c)
     return;
   else if (c > p -> card) {
     if (p -> right)
       insert(c, p -> right);
     else {
-      p -> right = new cardNode(c);
+      p -> right = new Node(c);
       p -> right -> parent = p;
       return;
     }
@@ -34,22 +35,22 @@ void CardsBST::insert(Cards c, cardNode * p) {
     if (p -> left)
       insert(c, p -> left);
     else {
-      p -> left = new cardNode(c);
+      p -> left = new Node(c);
       p -> left -> parent = p;
       return;
     }
   }
 }
 
-void CardsBST::remove(Cards c) {
+void Deck::remove(Cards c) {
 
-  cardNode * p = findNode(c, this -> root);
+  Node * p = findNode(c, this -> root);
 
   if (!p) {
     return;
   }
 
-  cardNode * parent = p -> parent;
+  Node * parent = p -> parent;
 
   if (!p -> left && !p -> right) {
 
@@ -69,7 +70,7 @@ void CardsBST::remove(Cards c) {
     delete p;
   } else if (p -> left && p -> right) {
 
-    cardNode * replace = p -> right;
+    Node * replace = p -> right;
     parent = nullptr;
 
     while (replace -> left) {
@@ -89,7 +90,7 @@ void CardsBST::remove(Cards c) {
     free(replace);
   } else {
 
-    cardNode * replace;
+    Node * replace;
 
     if (!p -> left) {
       replace = p -> right;
@@ -112,18 +113,18 @@ void CardsBST::remove(Cards c) {
   return;
 }
 
-bool CardsBST::contains(Cards c) {
+bool Deck::contains(Cards c) {
   if (this -> findNode(c, this -> root) == nullptr)
     return false;
   else
     return true;
 }
 
-void CardsBST::printInOrder() {
+void Deck::printInOrder() {
   printInOrder(this -> root);
 }
 
-void CardsBST::printInOrder(cardNode * root) {
+void Deck::printInOrder(Node * root) {
   if (root) {
     printInOrder(root -> left);
     cout << root -> card.getSuit() << " " << root -> card.getVal() << endl;
@@ -131,9 +132,9 @@ void CardsBST::printInOrder(cardNode * root) {
   }
 }
 
-CardsBST::cardNode * CardsBST::getSuccessorNode(Cards c) {
+Deck::Node * Deck::getSuccessorNode(Cards c) {
 
-  cardNode * p = this -> findNode(c, this -> root);
+  Node * p = this -> findNode(c, this -> root);
 
   if (!p) {
     return nullptr;
@@ -155,7 +156,7 @@ CardsBST::cardNode * CardsBST::getSuccessorNode(Cards c) {
     } else if (p -> parent -> left == p) {
       return p -> parent;
     } else {
-      cardNode * n = p -> parent;
+      Node * n = p -> parent;
       while (p -> card > n -> card) {
         n = n -> parent;
       }
@@ -164,8 +165,8 @@ CardsBST::cardNode * CardsBST::getSuccessorNode(Cards c) {
   }
 }
 
-Cards CardsBST::getSuccessor(Cards c) {
-  cardNode * p = getSuccessorNode(c);
+Cards Deck::getSuccessor(Cards c) {
+  Node * p = getSuccessorNode(c);
   Cards x;
   if (!p) {
     return x;
@@ -173,8 +174,8 @@ Cards CardsBST::getSuccessor(Cards c) {
     return p -> card;
 }
 
-CardsBST::cardNode * CardsBST::getPredecessorNode(Cards c) {
-  cardNode * p = this -> findNode(c, this -> root);
+Deck::Node * Deck::getPredecessorNode(Cards c) {
+  Node * p = this -> findNode(c, this -> root);
   if (!p) {
     return nullptr;
   } else {
@@ -194,7 +195,7 @@ CardsBST::cardNode * CardsBST::getPredecessorNode(Cards c) {
     } else if (p -> parent -> right == p) {
       return p -> parent;
     } else {
-      cardNode * n = p -> parent;
+      Node * n = p -> parent;
       while (p -> card < n -> card) {
         n = n -> parent;
       }
@@ -203,8 +204,8 @@ CardsBST::cardNode * CardsBST::getPredecessorNode(Cards c) {
   }
 }
 
-Cards CardsBST::getPredecessor(Cards c) {
-  cardNode * p = this -> getPredecessorNode(c);
+Cards Deck::getPredecessor(Cards c) {
+  Node * p = this -> getPredecessorNode(c);
   Cards x;
   if (!p) {
     return x;
@@ -212,9 +213,9 @@ Cards CardsBST::getPredecessor(Cards c) {
     return p -> card;
 }
 
-CardsBST::cardNode * CardsBST::findNode(Cards c, cardNode * p) {
+Deck::Node * Deck::findNode(Cards c, Node * p) {
 
-  cardNode * n = this -> root;
+  Node * n = this -> root;
   while (n) {
 
     if (c == n -> card) {
@@ -230,7 +231,7 @@ CardsBST::cardNode * CardsBST::findNode(Cards c, cardNode * p) {
   return nullptr;
 }
 
-void CardsBST::clear(cardNode * root) {
+void Deck::clear(Node * root) {
   if (root) {
     clear(root -> left);
     clear(root -> right);
@@ -238,27 +239,27 @@ void CardsBST::clear(cardNode * root) {
   }
 }
 
-CardsBST::cardNode * CardsBST::minNode() {
-  cardNode * p = this -> root;
+Deck::Node * Deck::smNode() {
+  Node * p = this -> root;
   while (p && p -> left) {
     p = p -> left;
   }
   return p;
 }
 
-Cards CardsBST::findMin() {
-  cardNode * p = minNode();
+Cards Deck::findMin() {
+  Node * p = smNode();
   return p -> card;
 }
 
-CardsBST::cardNode * CardsBST::maxNode() {
-  cardNode * p = this -> root;
+Deck::Node * Deck::bgNode() {
+  Node * p = this -> root;
   while (p && p -> right) {
     p = p -> right;
   }
   return p;
 }
-Cards CardsBST::findMax() {
-  cardNode * p = maxNode();
+Cards Deck::findMax() {
+  Node * p = bgNode();
   return p -> card;
 }
