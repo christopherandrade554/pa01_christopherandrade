@@ -32,7 +32,7 @@ class Selected {
 
   private:
     char suit;
-  string val;
+  string value;
   map < string, int > cardFace;
 };
 

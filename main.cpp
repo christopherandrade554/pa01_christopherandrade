@@ -1,116 +1,125 @@
 //Christopher Andrade
 #include <iostream>
-
 #include <fstream>
-
 #include <string>
-
 #include <cstring>
-
 #include "utility.h"
-
 #include "cards.h"
-
 using namespace std;
 
-int main(int argv, char ** argc) {
-  if (argv < 3) {
-    cout << "Please provide 2 file names" << endl;
-    return 1;
-  }
+int main(int argv, char **argc)
+{
+	if (argv < 3)
+	{
+		cout << "Please provide 2 file names" << endl;
+		return 1;
+	}
 
-  ifstream cardFile1(argc[1]);
-  ifstream cardFile2(argc[2]);
-  string line;
+	ifstream cardFile1(argc[1]);
+	ifstream cardFile2(argc[2]);
+	string line;
 
-  if (cardFile1.fail() || cardFile2.fail()) {
-    cout << "Could not open file " << argc[2];
-    return 1;
-  }
+	if (cardFile1.fail() || cardFile2.fail())
+	{
+		cout << "Could not open file " << argc[2];
+		return 1;
+	}
 
-  Deck BST1;
-  Deck BST2;
-  // Read each file
-  while (getline(cardFile1, line) && (line.length() > 0)) {
-    string suitcp = line.substr(0, 1);
-    char suit[1];
-    strcpy(suit, suitcp.c_str());
-    string val = line.substr(2, 2);
-    Selected card;
-    card. setC(suit[0], val);
-    BST1.insert(card);
-  }
+	Deck Set1, Set2;
 
-  cardFile1.close();
+	while (getline(cardFile1, line) && (line.length() > 0))
+	{
+		string hold = line.substr(0, 1);
+		char suit[1];
+		strcpy(suit, hold.c_str());
+		string val = line.substr(2, 2);
+		Selected card;
+		card.setC(suit[0], val);
+		Set1.insert(card);
+	}
 
-  while (getline(cardFile2, line) && (line.length() > 0)) {
-    string suitcp = line.substr(0, 1);
-    char suit[1];
-    strcpy(suit, suitcp.c_str());
-    string val = line.substr(2, 2);
-    Selected card;
-    card. setC(suit[0], val);
-    BST2.insert(card);
-  }
-  cardFile2.close();
+	cardFile1.close();
 
-  Selected nullCard('z', "0");
+	while (getline(cardFile2, line) && (line.length() > 0))
+	{
+		string hold = line.substr(0, 1);
+		char suit[1];
+		strcpy(suit, hold.c_str());
+		string val = line.substr(2, 2);
+		Selected card;
+		card.setC(suit[0], val);
+		Set2.insert(card);
+	}
 
-  Selected a = BST1.Min();
-  Selected b = BST2.Max();
+	cardFile2.close();
 
-  Selected aMax = BST1.Max();
-  Selected bMin = BST2.Min();
+	Selected blank('z', "0");
 
-  while (!(a == nullCard) && !(b == nullCard)) {
+	Selected a = Set1.Min();
+	Selected b = Set2.Max();
+	//Selected aMax = Set1.Max();
+	//Selected bMin = Set2.Min();
 
-    if (BST2.contains(a)) {
-      BST2.remove(a);
-      cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-      Selected newA = BST1.Successor(a);
-      BST1.remove(a);
-      a = newA;
-    } else if (!BST2.contains(a)) {
-      while (!(a == nullCard)) {
-        Selected newA = BST1.Successor(a);
-        a = newA;
-        if (BST2.contains(a)) {
-          BST2.remove(a);
-          cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-          Selected newA = BST1.Successor(a);
-          BST1.remove(a);
-          a = newA;
-          break;
-        }
-      }
-    }
+	while (!(a == blank) && !(b == blank))
+	{
+		if (Set2.contains(a))
+		{
+			Set2.remove(a);
+			cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
+			Selected test = Set1.Successor(a);
+			Set1.remove(a);
+			a = test;
+		}
+		else if (!Set2.contains(a))
+		{
+			while (!(a == blank))
+			{
+				Selected test = Set1.Successor(a);
+				a = test;
+				if (Set2.contains(a))
+				{
+					Set2.remove(a);
+					cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
+					Selected test = Set1.Successor(a);
+					Set1.remove(a);
+					a = test;
+					break;
+				}
+			}
+		}
 
-    if (BST1.contains(b)) {
-      BST1.remove(b);
-      cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-      Selected newB = BST2.Predecessor(b);
-      BST2.remove(b);
-      b = newB;
-    } else if (!BST1.contains(b)) {
-      while (!(b == nullCard)) {
-        Selected newB = BST2.Predecessor(b);
-        b = newB;
-        if (BST1.contains(b)) {
-          BST1.remove(b);
-          cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-          Selected newB = BST2.Predecessor(b);
-          BST2.remove(b);
-          b = newB;
-          break;
-        }
-      }
-    }
-  }
-  cout << endl <<
-    "Alice's cards: " << endl;
-  BST1.Print();
-  cout << endl <<
-    "Bob's cards: " << endl;
-  BST2.Print();
-  return 0;
+		if (Set1.contains(b))
+		{
+			Set1.remove(b);
+			cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
+			Selected test2 = Set2.Predecessor(b);
+			Set2.remove(b);
+			b = test2;
+		}
+		else if (!Set1.contains(b))
+		{
+			while (!(b == blank))
+			{
+				Selected test2 = Set2.Predecessor(b);
+				b = test2;
+				if (Set1.contains(b))
+				{
+					Set1.remove(b);
+					cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
+					Selected test2 = Set2.Predecessor(b);
+					Set2.remove(b);
+					b = test2;
+					break;
+				}
+			}
+		}
+	}
+
+	cout << endl <<
+		"Alice's cards: " << endl;
+	Set1.Print();
+	cout << endl <<
+		"Bob's cards: " << endl;
+	Set2.Print();
+	return 0;
 }

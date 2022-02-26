@@ -7,31 +7,31 @@
 
 using namespace std;
 
-Selected::Selected(): suit('z'), val("0") {}
+Selected::Selected(): suit('z'), value("0") {}
 Selected::~Selected() {}
 
 Selected::Selected(char s, string v) {
   suit = s;
-  val = v;
+  value = v;
 }
 
-void Selected::setC(char & suit, string & val) {
+void Selected::setC(char & suit, string & value) {
   this -> suit = suit;
-  this -> val = val;
+  this -> value = value;
 }
 char Selected::getSuit() const {
   return suit;
 }
 
 string Selected::getVal() const {
-  return val;
+  return value;
 }
 
 bool operator < (Selected
   const & c1, Selected
   const & c2) {
 
-  if (c1.suit == c2.suit && c1.val == c2.val)
+  if (c1.suit == c2.suit && c1.value == c2.value)
     return false;
 
   int suit1;
@@ -87,8 +87,8 @@ bool operator < (Selected
   cardFace["q"] = 12;
   cardFace["k"] = 13;
 
-  auto val1 = cardFace.find(c1.val);
-  auto val2 = cardFace.find(c2.val);
+  auto val1 = cardFace.find(c1.value);
+  auto val2 = cardFace.find(c2.value);
 
   if (suit1 < suit2) {
     return true;
@@ -105,7 +105,7 @@ bool operator < (Selected
 bool operator > (Selected
   const & c1, Selected
   const & c2) {
-  if (c1.suit == c2.suit && c1.val == c2.val)
+  if (c1.suit == c2.suit && c1.value == c2.value)
     return false;
   if (c1 < c2)
     return false;
@@ -116,12 +116,12 @@ bool operator > (Selected
 bool operator == (Selected
   const & c1, Selected
   const & c2) {
-  if (c1.suit == c2.suit && c1.val == c2.val)
+  if (c1.suit == c2.suit && c1.value == c2.value)
     return true;
   else
     return false;
 }
 
 void Selected::printCard() const {
-  cout << this -> suit << " " << this -> val << endl;
+  cout << this -> suit << " " << this -> value << endl;
 }
