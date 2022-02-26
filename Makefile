@@ -1,11 +1,17 @@
 
-all: tests game
+CXX_FLAG = --std=c++11 -g
 
-tests: tests.o cards.o utility.o
-	g++ -Wall -Wno-uninitialized $(LDFLAGS) $^ -o $@
+all: game
 
-game: main.o cards.o utility.o
-	g++ -Wall -Wno-uninitialized $(LDFLAGS) $^ -o $@
+game: cards.o main.o
+	g++ $(CXX_FLAG) -o game cards.o main.o
+
+
+cards.o: cards.cpp
+	g++ -c $(CXX_FLAG) cards.cpp
+
+ main.o: main.cpp
+	g++ -c $(CXX_FLAG) main.cpp
 
 clean:
-	/bin/rm -f tests game *.o
+	rm -f testrest testlist *.o
