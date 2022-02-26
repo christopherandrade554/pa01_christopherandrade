@@ -107,10 +107,10 @@ int main(int argv, char ** argc) {
     }
   }
   cout << endl <<
-    "Alice's Selected: " << endl;
+    "Alice's cards: " << endl;
   BST1.Print();
   cout << endl <<
-    "Bob's Selected: " << endl;
+    "Bob's cards: " << endl;
   BST2.Print();
   return 0;
 }
