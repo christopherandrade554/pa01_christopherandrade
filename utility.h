@@ -1,29 +1,36 @@
-// #ifndef UTILITY_H
-// #define UTILITY_H
+#ifndef UTILITY_H
+#define UTILITY_H
 
-// #include <iostream>
-// #include <map>
-// using namespace std;
+#include <iostream>
 
-// class Cards
-// {
-// public:
-//     Cards();
-//     ~Cards();
-//     Cards(char s, string v);
-//     void setCard(char &suit, string &val);
-//     char getSuit() const;
-//     string getVal() const;
-//     void printCard() const;
+#include <map>
 
-//     friend bool operator<(Cards const &c1, Cards const &c2);
-//     friend bool operator>(Cards const &c1, Cards const &c2);
-//     friend bool operator==(Cards const &c1, Cards const &c2);
+using namespace std;
 
-// private:
-//     char suit;
-//     string val;
-//     map<string, int> cardFace;
-// };
+class Cards {
+  public:
+    Cards();
+  ~Cards();
+  Cards(char s, string v);
+  void setCard(char & suit, string & val);
+  char getSuit() const;
+  string getVal() const;
+  void printCard() const;
 
-// #endif
+  friend bool operator < (Cards
+    const & c1, Cards
+    const & c2);
+  friend bool operator > (Cards
+    const & c1, Cards
+    const & c2);
+  friend bool operator == (Cards
+    const & c1, Cards
+    const & c2);
+
+  private:
+    char suit;
+  string val;
+  map < string, int > cardFace;
+};
+
+#endif
