@@ -1,41 +1,52 @@
+//Christopher Andrade
 #ifndef CARDS_H
 #define CARDS_H
 
-#endif
 #include <iostream>
+
+#include <unordered_map>
+
+#include "utility.h"
+
 using namespace std;
 
-class Card {
+class Deck {
   public:
-    char suit;
-    char value;
-    Card *next;
-    
-    // Constructor
-    Card(char x, char y);
-    
-    // Equality Overload
-    bool operator == (const Card& c);
-    
-    // Output Overload
-    friend ostream& operator<<(ostream& os, Card& c) {
-      os << c.suit << " " << c.value;
-      return os;
-    }
+    Deck();
+  ~Deck();
+  void insert(Selected c);
+  void remove(Selected c);
+  bool contains(Selected c);
+  void Print();
+  Selected Successor(Selected c);
+  Selected Predecessor(Selected c);
+  Selected Min();
+  Selected Max();
 
+  private:
+    struct Node {
+      Node * left, * right, * parent;
+      Selected card;
+      Node(Selected c1) {
+        card = c1;
+        left = nullptr;
+        right = nullptr;
+        right = nullptr;
+        parent = nullptr;
+      }
+    };
+
+  Node * root;
+
+    void Print(Node * root);
+  void insert(Selected c, Node * p);
+  void clear(Node * root);
+  Node * findNode(Selected c, Node * p);
+  Node * SuccessorNode(Selected c);
+  Node * PredecessorNode(Selected c);
+  Node * smNode();
+  Node * bgNode();
 
 };
 
-class Hand {
-  public:
-    Card* first;
-    Card* last;
-    Hand(); // Constructor
-    int contains(Card* c);
-
-    void remove(int x);
- 
-    void add(Card* c);
-  
-    ~Hand(); // Destructor
-};
+#endif

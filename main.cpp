@@ -1,95 +1,124 @@
+//Christopher Andrade
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
+#include "utility.h"
 #include "cards.h"
-
 using namespace std;
 
-int main(int argv, char** argc){
-  if(argv != 3){
-    cout << "Please provide 2 file names" << endl;
-    return 1;
-  }
-  
-  ifstream cardFile1 (argc[1]);
-  ifstream cardFile2 (argc[2]);
-  string line;
+int main(int argv, char **argc)
+{
+	if (argv < 3)
+	{
+		cout << "Please provide 2 file names" << endl;
+		return 1;
+	}
 
-  if (cardFile1.fail()){
-    cout << "Could not open file " << argc[1];
-    return 1;
-  }
+	ifstream cardFile1(argc[1]);
+	ifstream cardFile2(argc[2]);
+	string line;
 
-  if (cardFile2.fail()){
-    cout << "Could not open file " << argc[2];
-    return 1;
-  }
+	if (cardFile1.fail() || cardFile2.fail())
+	{
+		cout << "Could not open file " << argc[2];
+		return 1;
+	}
 
-  
-  Hand alice;
-  Hand bob;
+	Deck Set1, Set2;
 
-  char suit;
-  char value;
+	while (getline(cardFile1, line) && (line.length() > 0))
+	{
+		string hold = line.substr(0, 1);
+		char suit[1];
+		strcpy(suit, hold.c_str());
+		string val = line.substr(2, 2);
+		Selected card;
+		card.setC(suit[0], val);
+		Set1.insert(card);
+	}
 
+	cardFile1.close();
 
-  
-  while (getline (cardFile1, line) && (line.length() > 0)){
-    suit = line[0];
-    value = line[2];
-    alice.add(new Card(suit, value));
-  }
-  cardFile1.close();
+	while (getline(cardFile2, line) && (line.length() > 0))
+	{
+		string hold = line.substr(0, 1);
+		char suit[1];
+		strcpy(suit, hold.c_str());
+		string val = line.substr(2, 2);
+		Selected card;
+		card.setC(suit[0], val);
+		Set2.insert(card);
+	}
 
-  while (getline (cardFile2, line) && (line.length() > 0)){
-    suit = line[0];
-    value = line[2];
-    bob.add(new Card(suit, value)); 
-  }
-  cardFile2.close();
+	cardFile2.close();
 
+	Selected blank('z', "0");
 
-  bool gameActive = 1; 
-  bool matchFound = 0;
-  
-  while(gameActive) {
-    for (Card*iter = alice.first; iter != NULL; iter = iter->next) {
-      if (bob.contains(iter)) {
-	cout << "Alice picked matching card " << *iter << endl;
-        bob.remove(bob.contains(iter)); 
-	alice.remove(alice.contains(iter));
-	matchFound = 1;
-	break; 
-      }
-    }
-    if (matchFound == 0) gameActive = 0; 
-    if (matchFound == 1) {
-      matchFound = 0; 
-    
-      for (Card*iter = bob.first; iter != NULL; iter = iter->next) {
-        if (alice.contains(iter)) {
-	  cout << "Bob picked matching card " << *iter << endl;
-          alice.remove(alice.contains(iter)); // removing both
-	  bob.remove(bob.contains(iter));
-	  matchFound = 1;
-	  break;
-      }
-    }
-    if (matchFound == 0) gameActive = 0; 
-    }
-  }
-  cout << endl;
+	Selected a = Set1.Min();
+	Selected b = Set2.Max();
+	
 
+	while (!(a == blank) && !(b == blank))
+	{
+		if (Set2.contains(a))
+		{
+			Set2.remove(a);
+			cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
+			Selected test = Set1.Successor(a);
+			Set1.remove(a);
+			a = test;
+		}
+		else if (!Set2.contains(a))
+		{
+			while (!(a == blank))
+			{
+				Selected test = Set1.Successor(a);
+				a = test;
+				if (Set2.contains(a))
+				{
+					Set2.remove(a);
+					cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
+					Selected test = Set1.Successor(a);
+					Set1.remove(a);
+					a = test;
+					break;
+				}
+			}
+		}
 
-  cout << "Alice's cards: " << endl;
-  for (Card *iter = alice.first; iter != NULL; iter = iter->next) {
-    cout << *iter << endl;    
-  }
-  cout << endl;
-  cout << "Bob's cards: " << endl;
-  for (Card *iter2 = bob.first; iter2 != NULL; iter2 = iter2->next) {
-    cout << *iter2 << endl;    
-  }
+		if (Set1.contains(b))
+		{
+			Set1.remove(b);
+			cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
+			Selected test2 = Set2.Predecessor(b);
+			Set2.remove(b);
+			b = test2;
+		}
+		else if (!Set1.contains(b))
+		{
+			while (!(b == blank))
+			{
+				Selected test2 = Set2.Predecessor(b);
+				b = test2;
+				if (Set1.contains(b))
+				{
+					Set1.remove(b);
+					cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
+					Selected test2 = Set2.Predecessor(b);
+					Set2.remove(b);
+					b = test2;
+					break;
+				}
+			}
+		}
+	}
 
-  return 0;
+	cout << endl <<
+		"Alice's cards: " << endl;
+	Set1.Print();
+	cout << endl <<
+		"Bob's cards: " << endl;
+	Set2.Print();
+	return 0;
 }
