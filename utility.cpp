@@ -101,8 +101,10 @@ void Select::printSelect() const {
     printV = "j";
   } else if (this -> val == 12) {
     printV = "q";
-  } else {
+  } else if (this -> val == 13) {
     printV = "k";
+  } else if (this -> val == 0) {
+    printV = "NULL";
   } 
   if (this -> suit == 1) {
     printS = "c";
@@ -110,9 +112,12 @@ void Select::printSelect() const {
     printS = "d";
   } else if (this -> suit == 3) {
     printS = "s";
-  } else {
+  } else if (this -> suit == 4) {
     printS = "h";
+  } else {
+    printS = "NULL";
   }
+
  
   cout << printS << " " << printV << endl;
 }
