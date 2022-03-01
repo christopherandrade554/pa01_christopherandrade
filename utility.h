@@ -2,28 +2,33 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
-using namespace std;
-#include <map>
 #include <iostream>
 
-class Selected {
-public:
+using namespace std;
 
-    string value;
-    char suit;
-    map<string, int> faceVal;
-    Selected();
-    ~Selected();
-    Selected(char s, string v);
-    friend bool operator==(Selected const& c1, Selected const& c2);
-    friend bool operator<(Selected const& c1, Selected const& c2);
-    friend bool operator>(Selected const& c1, Selected const& c2);
-    string getVal() const;
-    void printCard() const;
-    void setC(char& suit, string& val);
-    char getSuit() const;
+class Select {
+  public:
+    Select();
+  ~Select();
+  Select(int s, int v);
+  void setSelect(int suit, int val);
+  int getSuit() const;
+  int getVal() const;
+  void printSelect() const;
 
-  
+  friend bool operator < (Select
+    const & c1, Select
+    const & c2);
+  friend bool operator > (Select
+    const & c1, Select
+    const & c2);
+  friend bool operator == (Select
+    const & c1, Select
+    const & c2);
+
+  private:
+    int suit;
+  int val;
 };
 
 #endif

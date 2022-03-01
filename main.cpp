@@ -1,123 +1,164 @@
 //Christopher Andrade
 #include <iostream>
+
 #include <fstream>
+
 #include <string>
-#include <cstring>
-#include "utility.h"
+
 #include "cards.h"
+
+#include "utility.h"
+
 using namespace std;
 
-int main(int argv, char **argc)
-{
-	if (argv < 3)
-	{
-		cout << "Please provide 2 file names" << endl;
-		return 1;
-	}
+int main(int argv, char ** argc) {
+  if (argv < 3) {
+    cout << "Please provide 2 file names" << endl;
+    return 1;
+  }
 
-	ifstream cardFile1(argc[1]);
-	ifstream cardFile2(argc[2]);
-	string line;
+  ifstream cardFile1(argc[1]);
+  ifstream cardFile2(argc[2]);
+  string line;
 
-	if (cardFile1.fail() || cardFile2.fail())
-	{
-		cout << "Could not open file " << argc[2];
-		return 1;
-	}
+  if (cardFile1.fail() || cardFile2.fail()) {
+    cout << "Could not open file " << argc[2];
+    return 1;
+  }
 
-	Deck Set1, Set2;
+  Deck Deck1, Deck2;
 
-	while (getline(cardFile1, line) && (line.length() > 0))
-	{
-		string hold = line.substr(0, 1);
-		char suit[1];
-		strcpy(suit, hold.c_str());
-		string val = line.substr(2, 2);
-		Selected card;
-		card.setC(suit[0], val);
-		Set1.insert(card);
-	}
+  while (getline(cardFile1, line) && (line.length() > 0)) {
 
-	cardFile1.close();
+    string suit = line.substr(0, 1);
+    int suitRank;
+    if (suit == "c") {
+      suitRank = 1;
+    } else if (suit == "d") {
+      suitRank = 2;
+    } else if (suit == "s") {
+      suitRank = 3;
+    } else {
+      suitRank = 4;
+    }
 
-	while (getline(cardFile2, line) && (line.length() > 0))
-	{
-		string hold = line.substr(0, 1);
-		char suit[1];
-		strcpy(suit, hold.c_str());
-		string val = line.substr(2, 2);
-		Selected card;
-		card.setC(suit[0], val);
-		Set2.insert(card);
-	}
+    int value;
+    if (line.length() == 4) {
+      value = 10;
+    } else if (line.substr(2, 3) == "j") {
+      value = 11;
+    } else if (line.substr(2, 3) == "q") {
+      value = 12;
+    } else if (line.substr(2, 3) == "k") {
+      value = 13;
+    } else if (line.substr(2, 3) == "a") {
+      value = 1;
+    } else {
+      int regNum = stoi(line.substr(2, 3));
+      value = regNum;
+    }
+    Select AliceCard;
+    AliceCard.setSelect(suitRank, value);
+    Deck1.insert(AliceCard);
+  }
+  cardFile1.close();
 
-	cardFile2.close();
+  while (getline(cardFile2, line) && (line.length() > 0)) {
+    string suit = line.substr(0, 1);
+    int suitRank;
 
-	Selected blank('z', "0");
-	Selected a = Set1.Min();
-	Selected b = Set2.Max();
-	
+    if (suit == "c") {
+      suitRank = 1;
+    } else if (suit == "d") {
+      suitRank = 2;
+    } else if (suit == "s") {
+      suitRank = 3;
+    } else {
+      suitRank = 4;
+    }
 
-	while (!(a == blank) && !(b == blank))
-	{
-		if (Set2.contains(a))
-		{
-			Set2.remove(a);
-			cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-			Selected test = Set1.Successor(a);
-			Set1.remove(a);
-			a = test;
-		}
-		else if (!Set2.contains(a))
-		{
-			while (!(a == blank))
-			{
-				Selected test = Set1.Successor(a);
-				a = test;
-				if (Set2.contains(a))
-				{
-					Set2.remove(a);
-					cout << "Alice picked matching card " << a.getSuit() << " " << a.getVal() << endl;
-					Selected test = Set1.Successor(a);
-					Set1.remove(a);
-					a = test;
-					break;
-				}
-			}
-		}
+    int value;
+    if (line.length() == 4) {
+      value = 10;
+    } else if (line.substr(2, 3) == "j") {
+      value = 11;
+    } else if (line.substr(2, 3) == "q") {
+      value = 12;
+    } else if (line.substr(2, 3) == "k") {
+      value = 13;
+    } else if (line.substr(2, 3) == "a") {
+      value = 1;
+    } else {
+      int regNum = stoi(line.substr(2, 3));
+      value = regNum;
+    }
+    Select BobCard;
+    BobCard.setSelect(suitRank, value);
+    Deck2.insert(BobCard);
+  }
+  cardFile2.close();
 
-		if (Set1.contains(b))
-		{
-			Set1.remove(b);
-			cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-			Selected test2 = Set2.Predecessor(b);
-			Set2.remove(b);
-			b = test2;
-		}
-		else if (!Set1.contains(b))
-		{
-			while (!(b == blank))
-			{
-				Selected test2 = Set2.Predecessor(b);
-				b = test2;
-				if (Set1.contains(b))
-				{
-					Set1.remove(b);
-					cout << "Bob picked matching card " << b.getSuit() << " " << b.getVal() << endl;
-					Selected test2 = Set2.Predecessor(b);
-					Set2.remove(b);
-					b = test2;
-					break;
-				}
-			}
-		}
-	}
+  Select alice = Deck1.getMin();
+  Select bob = Deck2.getMax();
+  Select blank(0, 0);
 
-	cout << endl <<
-		"Alice's cards: " << endl;
-	Set1.Print();
-	cout << endl <<
-		"Bob's cards: " << endl;
-	Set2.Print();
-	return 0;
+  while (!(bob == blank) && !(alice == blank)) {
+    if (Deck2.contains(alice)) {
+      Deck2.remove(alice);
+      cout << "Alice picked matching card ";
+      alice.printSelect();
+      Select tempA = Deck1.getSuccessor(alice);
+
+      Deck1.remove(alice);
+      alice = tempA;
+    } else {
+      while (!(alice == blank)) {
+        Select tempA = Deck1.getSuccessor(alice);
+
+        alice = tempA;
+        if (Deck2.contains(alice)) {
+          Deck2.remove(alice);
+          cout << "Alice picked matching card ";
+          alice.printSelect();
+          Select tempA = Deck1.getSuccessor(alice);
+
+          Deck1.remove(alice);
+          alice = tempA;
+          break;
+        }
+      }
+    }
+
+    if (Deck1.contains(bob)) {
+      Select tempB = Deck2.getPredecessor(bob);
+      Deck1.remove(bob);
+      cout << "Bob picked matching card ";
+      bob.printSelect();
+      Deck2.remove(bob);
+      bob = tempB;
+    } else {
+      while (!(bob == blank)) {
+        Select tempB = Deck2.getPredecessor(bob);
+
+        bob = tempB;
+        if (Deck1.contains(bob)) {
+          Deck1.remove(bob);
+          cout << "Bob picked matching card ";
+          bob.printSelect();
+          Select tempB = Deck2.getPredecessor(bob);
+
+          Deck2.remove(bob);
+          bob = tempB;
+          break;
+        }
+      }
+    }
+
+  }
+  cout << endl << "Alice's cards: " << endl;
+  Deck1.sort();
+  cout << endl << "Bob's cards: " << endl;
+  Deck2.sort();
+
+  return 0;
 }

@@ -1,305 +1,218 @@
-//Christopher Andrade
-#include <iostream>
-
 #include "cards.h"
+
+#include <iostream>
 
 using namespace std;
 
-Deck::Deck()
-    : root(nullptr)
-{
+Deck::Deck(): root(nullptr) {}
+
+Deck::~Deck() {
+  clear(root);
 }
 
-Deck::~Deck()
-{
-    clear(root);
+void Deck::clear(Node * n) {
+  if (n) {
+    clear(n -> left);
+    clear(n -> right);
+    delete n;
+  }
 }
 
-void Deck::insert(Selected c)
-{
-    if (!root) {
-        root = new Node(c);
-        return;
-    }
+bool Deck::insert(Select value) {
+  if (!root) {
+    root = new Node(value);
+    return true;
+  }
+  return insert(value, root);
+}
+
+bool Deck::insert(Select value, Node * n) {
+  if (value == n -> data)
+    return false;
+  if (value < n -> data) {
+    if (n -> left)
+      return insert(value, n -> left);
     else {
-        return insert(c, root);
+      n -> left = new Node(value);
+      n -> left -> parent = n;
+      return true;
     }
-}
-
-void Deck::insert(Selected c, Node* p)
-{
-    if (p->card == c)
-        return;
-    else if (c > p->card) {
-        if (p->right)
-            insert(c, p->right);
-        else {
-            p->right = new Node(c);
-            p->right->parent = p;
-            return;
-        }
-    }
+  } else {
+    if (n -> right)
+      return insert(value, n -> right);
     else {
-        if (p->left)
-            insert(c, p->left);
-        else {
-            p->left = new Node(c);
-            p->left->parent = p;
-            return;
-        }
+      n -> right = new Node(value);
+      n -> right -> parent = n;
+      return true;
     }
+  }
 }
 
-void Deck::remove(Selected c)
-{
-
-    Node* p = findNode(c, this->root);
-
-    if (!p) {
-        return;
-    }
-
-    Node* parent = p->parent;
-
-    if (!p->left && !p->right) {
-
-        if (p != root) {
-            if (parent->right == p) {
-
-                parent->right = nullptr;
-                p = nullptr;
-            }
-            else {
-
-                parent->left = nullptr;
-                p = nullptr;
-            }
-        }
-        else {
-            root = nullptr;
-        }
-        delete p;
-    }
-    else if (p->left && p->right) {
-
-        Node* replace = p->right;
-        parent = nullptr;
-
-        while (replace->left) {
-            parent = replace;
-            replace = replace->left;
-        }
-
-        if (parent) {
-            parent->left = replace->right;
-        }
-        else {
-            p->right = replace->right;
-        }
-
-        p->card = replace->card;
-
-        replace = nullptr;
-        free(replace);
-    }
-    else {
-
-        Node* replace;
-
-        if (!p->left) {
-            replace = p->right;
-        }
-        else
-            replace = p->left;
-
-        if (root == p) {
-            root = replace;
-            root->parent = nullptr;
-        }
-        else {
-            if (p == parent->left) {
-                parent->left = replace;
-            }
-            else
-                parent->right = replace;
-        }
-
-        p = nullptr;
-        delete p;
-    }
-    return;
+void Deck::sort() const {
+  sort(root);
+}
+void Deck::sort(Node * n) const {
+  if (!n) return;
+  sort(n -> left);
+  n -> data.printSelect();
+  sort(n -> right);
 }
 
-bool Deck::contains(Selected c)
-{
-    if (this->findNode(c, this->root) == nullptr)
-        return false;
-    else
-        return true;
+Deck::Node * Deck::getNodeFor(Select value, Node * n) const {
+  while (n) {
+    if (n -> data == value) {
+      return n;
+    } else if (value < n -> data) {
+      n = n -> left;
+    } else {
+      n = n -> right;
+    }
+  }
+  return nullptr;
 }
 
-void Deck::Print()
-{
-    Print(this->root);
+bool Deck::contains(Select value) const {
+  Node * n = getNodeFor(value, root);
+  if (!n) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
-void Deck::Print(Node* root)
-{
-    if (root) {
-        Print(root->left);
-        cout << root->card.getSuit() << " " << root->card.getVal() << endl;
-        Print(root->right);
-    }
-}
-
-Deck::Node* Deck::SuccessorNode(Selected c)
-{
-
-    Node* p = this->findNode(c, this->root);
-
-    if (!p) {
-        return nullptr;
-    }
-    else {
-        if (!p->parent && !p->right) {
-            return nullptr;
-        }
-
-        if (!p->right && p->parent->right == p && p->card > root->card && p->card == this->Max()) {
-            return nullptr;
-        }
-
-        if (p->right) {
-            p = p->right;
-            while (p->left) {
-                p = p->left;
-            }
-            return p;
-        }
-        else if (p->parent->left == p) {
-            return p->parent;
-        }
-        else {
-            Node* n = p->parent;
-            while (p->card > n->card) {
-                n = n->parent;
-            }
-            return n;
-        }
-    }
-}
-
-Selected Deck::Successor(Selected c)
-{
-    Node* p = SuccessorNode(c);
-    Selected x;
-    if (!p) {
-        return x;
-    }
-    else
-        return p->card;
-}
-
-Deck::Node* Deck::PredecessorNode(Selected c)
-{
-    Node* p = this->findNode(c, this->root);
-    if (!p) {
-        return nullptr;
-    }
-    else {
-        if (!p->parent && !p->left) {
-            return nullptr;
-        }
-        if (!p->left && p->parent->left == p && p->card < root->card && p->card == this->Min()) {
-            return nullptr;
-        }
-
-        if (p->left) {
-            p = p->left;
-            while (p->right) {
-                p = p->right;
-            }
-            return p;
-        }
-        else if (p->parent->right == p) {
-            return p->parent;
-        }
-        else {
-            Node* n = p->parent;
-            while (p->card < n->card) {
-                n = n->parent;
-            }
-            return n;
-        }
-    }
-}
-
-Selected Deck::Predecessor(Selected c)
-{
-    Node* p = this->PredecessorNode(c);
-    Selected x;
-    if (!p) {
-        return x;
-    }
-    else
-        return p->card;
-}
-
-Deck::Node* Deck::findNode(Selected c, Node* p)
-{
-
-    Node* n = this->root;
-    while (n) {
-
-        if (c == n->card) {
-            return n;
-        }
-        else if (c > n->card) {
-
-            n = n->right;
-        }
-        else if (c < n->card) {
-
-            n = n->left;
-        }
-    }
+Deck::Node * Deck::getPredecessorNode(Select value) const {
+  Node * n = getNodeFor(value, root);
+  if (!n) {
     return nullptr;
-}
-
-void Deck::clear(Node* root)
-{
-    if (root) {
-        clear(root->left);
-        clear(root->right);
-        delete root;
+  }
+  if (n -> left) {
+    n = n -> left;
+    while (n -> right) {
+      n = n -> right;
     }
-}
-
-Deck::Node* Deck::smNode()
-{
-    Node* p = this->root;
-    while (p && p->left) {
-        p = p->left;
+    return n;
+  } else {
+    while (n -> parent != nullptr) {
+      n = n -> parent;
+      if (n -> data < value) {
+        return n;
+      }
     }
-    return p;
+  }
+  return nullptr;
 }
 
-Selected Deck::Min()
-{
-    Node* p = smNode();
-    return p->card;
+Select Deck::getPredecessor(Select value) const {
+  Node * n = getPredecessorNode(value);
+  Select Select(0, 0);
+  if (n == nullptr)
+    return Select;
+  return n -> data;
 }
 
-Deck::Node* Deck::bgNode()
-{
-    Node* p = this->root;
-    while (p && p->right) {
-        p = p->right;
+Deck::Node * Deck::getSuccessorNode(Select value) const {
+  Node * n = getNodeFor(value, root);
+  if (!n) {
+    return nullptr;
+  }
+  if (n -> right) {
+    n = n -> right;
+    while (n -> left) {
+      n = n -> left;
     }
-    return p;
+    return n;
+  } else {
+    while (n -> parent) {
+      n = n -> parent;
+      if (n -> data > value) {
+        return n;
+      }
+    }
+  }
+  return nullptr;
 }
-Selected Deck::Max()
-{
-    Node* p = bgNode();
-    return p->card;
+
+Select Deck::getSuccessor(Select value) const {
+  Node * n = getSuccessorNode(value);
+  Select select(0, 0);
+  if (n == nullptr)
+
+    return select;
+  return n -> data;
+}
+
+bool Deck::remove(Select value) {
+  Node * parent = nullptr;
+  Node * current = root;
+  while (current) {
+    if (current -> data == value) {
+      if (current -> left == nullptr && current -> right == nullptr) {
+        if (parent == nullptr) {
+          root = nullptr;
+        } else if (parent -> left == current) {
+          parent -> left = nullptr;
+        } else {
+          parent -> right = nullptr;
+        }
+        delete current;
+        return true;
+      } else if (current -> left && current -> right == nullptr) {
+        if (parent == nullptr) {
+          root = current -> left;
+        } else if (parent -> left == current) {
+          parent -> left = current -> left;
+          current -> left -> parent = parent;
+        } else {
+          parent -> right = current -> left;
+          current -> left -> parent = parent;
+        }
+        delete current;
+        return true;
+      } else if (current -> left == nullptr && current -> right) {
+        if (parent == nullptr) {
+          root = current -> right;
+        } else if (parent -> left == current) {
+          parent -> left = current -> right;
+          current -> right -> parent = parent;
+        } else {
+          parent -> right = current -> right;
+          current -> right -> parent = parent;
+        }
+        delete current;
+        return true;
+      } else {
+        Node * successor = current -> right;
+        while (successor -> left) {
+          successor = successor -> left;
+        }
+        current -> data = successor -> data;
+        parent = current;
+        current = current -> right;
+        value = successor -> data;
+      }
+    } else if (current -> data < value) {
+      parent = current;
+      current = current -> right;
+    } else {
+      parent = current;
+      current = current -> left;
+    }
+  }
+  return false;
+}
+
+Select Deck::getMin() const {
+  Node * current = root;
+  while (current -> left) {
+    current = current -> left;
+  }
+  return current -> data;
+}
+
+Select Deck::getMax() const {
+  Node * current = root;
+  while (current -> right) {
+    current = current -> right;
+  }
+  return current -> data;
 }
