@@ -1,4 +1,5 @@
-//Christopher Andrade
+//Christopher Andrade Perm: 5698618
+// 2/28/2022
 #include <iostream>
 
 #include <fstream>
@@ -26,20 +27,21 @@ int main(int argv, char ** argc) {
     return 1;
   }
 
-  Deck Deck1, Deck2;
+  Deck Deck1;
+  Deck Deck2;
 
   while (getline(cardFile1, line) && (line.length() > 0)) {
 
     string suit = line.substr(0, 1);
-    int suitRank;
+    int valueR;
     if (suit == "c") {
-      suitRank = 1;
+      valueR = 1;
     } else if (suit == "d") {
-      suitRank = 2;
+      valueR = 2;
     } else if (suit == "s") {
-      suitRank = 3;
+      valueR = 3;
     } else {
-      suitRank = 4;
+      valueR = 4;
     }
 
     int value;
@@ -54,27 +56,27 @@ int main(int argv, char ** argc) {
     } else if (line.substr(2, 3) == "a") {
       value = 1;
     } else {
-      int regNum = stoi(line.substr(2, 3));
-      value = regNum;
+      int test1 = stoi(line.substr(2, 3));
+      value = test1;
     }
-    Select AliceCard;
-    AliceCard.setSelect(suitRank, value);
-    Deck1.insert(AliceCard);
+    Select AC;
+    AC.setSelect(valueR, value);
+    Deck1.insert(AC);
   }
   cardFile1.close();
 
   while (getline(cardFile2, line) && (line.length() > 0)) {
     string suit = line.substr(0, 1);
-    int suitRank;
+    int valueR;
 
     if (suit == "c") {
-      suitRank = 1;
+      valueR = 1;
     } else if (suit == "d") {
-      suitRank = 2;
+      valueR = 2;
     } else if (suit == "s") {
-      suitRank = 3;
+      valueR = 3;
     } else {
-      suitRank = 4;
+      valueR = 4;
     }
 
     int value;
@@ -89,11 +91,11 @@ int main(int argv, char ** argc) {
     } else if (line.substr(2, 3) == "a") {
       value = 1;
     } else {
-      int regNum = stoi(line.substr(2, 3));
-      value = regNum;
+      int test1 = stoi(line.substr(2, 3));
+      value = test1;
     }
     Select BobCard;
-    BobCard.setSelect(suitRank, value);
+    BobCard.setSelect(valueR, value);
     Deck2.insert(BobCard);
   }
   cardFile2.close();
@@ -108,7 +110,6 @@ int main(int argv, char ** argc) {
       cout << "Alice picked matching card ";
       alice.printSelect();
       Select tempA = Deck1.getSuccessor(alice);
-
       Deck1.remove(alice);
       alice = tempA;
     } else {
@@ -146,9 +147,9 @@ int main(int argv, char ** argc) {
           cout << "Bob picked matching card ";
           bob.printSelect();
           Select tempB = Deck2.getPredecessor(bob);
-
           Deck2.remove(bob);
           bob = tempB;
+
           break;
         }
       }
