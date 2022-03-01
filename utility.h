@@ -1,5 +1,4 @@
-//Christopher Andrade Perm: 5698618
-// 2/28/2022
+//Christopher Andrade
 #ifndef UTILITY_H
 #define UTILITY_H
 
@@ -12,7 +11,7 @@ class Select {
     Select();
   ~Select();
   Select(int s, int v);
-  void setSelect(int suit, int value);
+  void setSelect(int suit, int val);
   int getSuit() const;
   int getVal() const;
   void printSelect() const;
@@ -29,7 +28,7 @@ class Select {
 
   private:
     int suit;
-    int value;
+  int val;
 };
 
 #endif

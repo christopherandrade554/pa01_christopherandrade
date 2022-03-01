@@ -8,12 +8,12 @@
 
 using namespace std;
 
-Select::Select(): suit(0), value(0) {}
+Select::Select(): suit(0), val(0) {}
 Select::~Select() {}
 
 Select::Select(int s, int v) {
   suit = s;
-  value = v;
+  val = v;
 }
 
 
@@ -22,13 +22,13 @@ int Select::getSuit() const {
 }
 
 int Select::getVal() const {
-  return value;
+  return val;
 }
 
 
-void Select::setSelect(int suit, int value) {
+void Select::setSelect(int suit, int val) {
   this -> suit = suit;
-  this -> value = value;
+  this -> val = val;
 }
 
 bool operator < (Select
@@ -37,10 +37,10 @@ bool operator < (Select
   
   int suit1 = c1.suit;
   int suit2 = c2.suit;
-  int val1 = c1.value;
-  int val2 = c2.value;
+  int val1 = c1.val;
+  int val2 = c2.val;
 
-  if (c1.suit == c2.suit && c1.value == c2.value)
+  if (c1.suit == c2.suit && c1.val == c2.val)
     return false;
 
   if (suit1 < suit2) {
@@ -60,12 +60,13 @@ bool operator > (Select
   const & c2) {
   int suit1 = c1.suit;
   int suit2 = c2.suit;
-  int val1 = c1.value;
-  int val2 = c2.value;
+  int val1 = c1.val;
+  int val2 = c2.val;
 
 
-  if (c1.suit == c2.suit && c1.value == c2.value)
+  if (c1.suit == c2.suit && c1.val == c2.val)
     return false;
+
   if (suit1 < suit2) {
     return false;
   } else if (suit1 > suit2) {
@@ -81,9 +82,10 @@ bool operator > (Select
 bool operator == (Select
   const & c1, Select
   const & c2) {
-  if (c1.suit == c2.suit && c1.value == c2.value){
+  if (c1.suit == c2.suit && c1.val == c2.val){
  return true;
-  }else{
+  }
+  else{
 return false;
   }
     
@@ -93,13 +95,13 @@ void Select::printSelect() const {
   string printV, printS;
 
 
-   if (this -> value == 1) {
+   if (this -> val == 1) {
     printV = "a";
-  } else if (this -> value == 11) {
+  } else if (this -> val == 11) {
     printV = "j";
-  } else if (this -> value == 12) {
+  } else if (this -> val == 12) {
     printV = "q";
-  } else{
+  } else {
     printV = "k";
   } 
   if (this -> suit == 1) {
@@ -111,7 +113,6 @@ void Select::printSelect() const {
   } else {
     printS = "h";
   }
-
  
   cout << printS << " " << printV << endl;
 }
