@@ -140,7 +140,6 @@ int main(int argv, char ** argc) {
     } else {
       while (!(bob == blank)) {
         Select tempB = Deck2.getPredecessor(bob);
-
         bob = tempB;
         if (Deck1.contains(bob)) {
           Deck1.remove(bob);

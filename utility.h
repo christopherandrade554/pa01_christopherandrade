@@ -12,7 +12,7 @@ class Select {
     Select();
   ~Select();
   Select(int s, int v);
-  void setSelect(int suit, int val);
+  void setSelect(int suit, int value);
   int getSuit() const;
   int getVal() const;
   void printSelect() const;
@@ -29,7 +29,7 @@ class Select {
 
   private:
     int suit;
-  int val;
+    int value;
 };
 
 #endif
